@@ -1,60 +1,62 @@
-import React, { useEffect, useState } from "react"
-import { Appbar, Button, TextInput } from "react-native-paper"
-import { FlatList, View } from "react-native"
-import Todo from "./todo"
-import firebase from "@react-native-firebase/app"
-import firestore from "@react-native-firebase/firestore"
+import React, { useEffect } from 'react';
+import { createStackNavigator } from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
+import { firebase } from './firebaseConfig'; // Import Firebase configuration
+import SignUp from './Auth/SignUp';
+import Login from './Auth/Login';
+import Home from './Home/Home';
+import Router from './Router';
+import AddService from './Home/AddService';
+import Logout from './Home/Logout';
+import Service from './Home/Service';
+import { UserProvider } from './context/UseContext';
 
+const Stack = createStackNavigator();
 
-const App = ()=>{
-  const [todo, setTodo] = useState('');
-  const [loading, setLoading] = useState(true);
-  const [todos, setTodos] = useState([]);
-  const ref = firestore().collection('todos');
-  async function addTodo(){
-    await ref.add({
-      title:todo,
-      complete:false,
-    });
-    setTodo('');
-  }
-  useEffect(()=>{
-    return ref.onSnapshot(querySnapshot => {
-      const list =[];
-      querySnapshot.forEach(doc=>{
-        const {title, complete} = doc.data();
-        list.push({
-          id: doc.id,
-          title,
-          complete,
-        })
-      })
-      setTodos(list);
-      if (loading){
-        setLoading(false);
+const App = () => {
+  // Function to create admin user if not exists
+  const createAdminUser = async () => {
+    const adminEmail = 'ngotruongvu@gmail.com'; 
+    const adminRef = firebase.firestore().collection('users').doc(adminEmail);
+
+    const admin = {
+      email: adminEmail,
+      password: '123123',
+      role: 'admin',
+      address: 'Binh Duong',
+      age: '22'
+    };
+
+    const adminDoc = await adminRef.get();
+
+    if (!adminDoc.exists) {
+      try {
+        // Create admin user if not exists
+        await firebase.auth().createUserWithEmailAndPassword(admin.email, admin.password);
+        await adminRef.set({ ...admin });
+      } catch (error) {
+        console.error('Error creating admin: ', error);
       }
-    });
-  });
-  if (loading){
-    return null;
-  }
-  return(
-    <View style={{flex:1}}>
-      <Appbar>
-        <Appbar.Content title={' TODOs List'}/>
-      </Appbar>
-      <FlatList
-        style={{flex:1}}
-        data={todos}
-        keyExtractor={(item)=>item.id}
-        renderItem={({item})=> <Todo {...item} /> }
-      />
-      <TextInput label={'New Todo'} 
-        value={todo}
-        onChangeText={(text) =>setTodo(text)}/>
-      <Button onPress={addTodo}>Add TODO</Button>
-    </View>
+    }
+  };
+
+  useEffect(() => {
+    createAdminUser(); // Check and create admin user on app start
+  }, []);
+
+  return (
+    <UserProvider>
+      <NavigationContainer independent={true}>
+        <Stack.Navigator>
+          {/* Your screen configurations */}
+          <Stack.Screen name="Router" component={Router} />
+          <Stack.Screen name="Home" component={Home} />
+          <Stack.Screen name="SignUp" component={SignUp} />
+          {/* Add more screens as needed */}
+        </Stack.Navigator>
+      </NavigationContainer>
+    </UserProvider>
   );
-}
+};
 
 export default App;
