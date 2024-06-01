@@ -1,0 +1,107 @@
+import {Dimensions, StyleSheet} from 'react-native';
+const {width, height} = Dimensions.get('window');
+
+export default StyleSheet.create({
+  container: {
+    backgroundColor: '#FFF',
+    flex: 1,
+  },
+  ViewHeader: {
+    backgroundColor: '#00a46c',
+    height: height * 0.2,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+    paddingHorizontal: 20,
+  },
+  ViewTitile: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    // marginTop: 5,
+    width: '100%',
+  },
+  TxtTitle: {
+    fontSize: 20,
+    color: '#FFF',
+    fontWeight: 'bold',
+  },
+  ViewSearchContainer: {
+    left: 0,
+    right: 0,
+    height: 90,
+    marginTop: -65,
+  },
+  ViewSearch: {
+    backgroundColor: '#FFF',
+    paddingVertical: 8,
+    paddingHorizontal: 20,
+    marginHorizontal: 20,
+    borderRadius: 15,
+    marginTop: 25,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    borderColor: '#00a46c',
+    borderWidth: 1,
+  },
+  TxtTextInput: {
+    fontWeight: 'bold',
+    fontSize: 18,
+    width: 220,
+  },
+  ViewTitileProducts: {
+    flexDirection: 'row',
+    paddingHorizontal: 20,
+    width: '100%',
+    alignItems: 'center',
+    marginTop: 6,
+    paddingVertical: 6,
+  },
+  TxtTitleProducts: {
+    fontWeight: 'bold',
+    fontSize: 20,
+    color: '#585a61',
+  },
+  ViewTitileMore: {
+    backgroundColor: '#00a46c',
+    paddingHorizontal: 20,
+    paddingVertical: 5,
+    borderRadius: 15,
+  },
+  TxtTitileMore: {
+    fontWeight: 'bold',
+    fontSize: 13,
+    color: '#FFF',
+  },
+  ViewLinearGradient: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    height: 100,
+    marginTop: 220,
+    top: 0,
+  },
+  ViewProducts: {
+    height: 250,
+    elevation: 2,
+    backgroundColor: '#FFF',
+    marginLeft: 10,
+    marginTop: 10,
+    marginRight: 2,
+    borderRadius: 15,
+    marginBottom: 10,
+    width: 180,
+    // alignSelf: 'center',
+  },
+  ViewImageProducts: {
+    width: 179.75,
+    height: 190,
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+  },
+  ViewTitilePro: {
+    flexDirection: 'row',
+    paddingTop: 5,
+    paddingHorizontal: 10,
+    // justifyContent: 'space-between',
+  },
+});
